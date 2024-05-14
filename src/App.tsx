@@ -1,23 +1,49 @@
-import { useQuery } from "@tanstack/react-query"
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { useState } from "react"
 
 import { Button } from "./components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from "./components/ui/card"
-import { Product } from "./types"
-import api from "./api"
+import { Input } from "./components/ui/input"
+import { Home } from "./pages/home"
+import { useQueryClient } from "@tanstack/react-query"
 
 import "./App.css"
+import api from "./api"
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />
+  }
+])
+
+
+// create a roiuter for product detail page 
+// /products/:productId 
+// in Home page, in the Button View Details, should apply Link to go the products/productId page
+// inside productDetails, apply useParams() to get productId 
+
 
 function App() {
-  const getProducts = async () => {
+  const queryClient = useQueryClient()
+
+  const [product, setProduct] = useState({
+    name: "",
+    categoryId: "",
+    image: "",
+    price: ""
+  })
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setProduct({
+      ...product,
+      [name]: value
+    })
+  }
+
+  const postProduct = async () => {
     try {
-      const res = await api.get("/products")
+      const res = await api.post("/products", product)
       return res.data
     } catch (error) {
       console.error(error)
@@ -25,33 +51,53 @@ function App() {
     }
   }
 
-  // Queries
-  const { data, error } = useQuery<Product[]>({
-    queryKey: ["products"],
-    queryFn: getProducts
-  })
-
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    await postProduct()
+    queryClient.invalidateQueries({ queryKey: ["products"] })
+  }
   return (
     <div className="App">
-      <h1 className="text-2xl uppercase mb-10">Products</h1>
-
-      <section className="flex flex-col md:flex-row gap-4 justify-between max-w-6xl mx-auto">
-        {data?.map((product) => (
-          <Card key={product.id} className="w-[350px]">
-            <CardHeader>
-              <CardTitle>{product.name}</CardTitle>
-              <CardDescription>Some Description here</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>Card Content Here</p>
-            </CardContent>
-            <CardFooter>
-              <Button className="w-full">Add to cart</Button>
-            </CardFooter>
-          </Card>
-        ))}
-      </section>
-      {error && <p className="text-red-500">{error.message}</p>}
+      <RouterProvider router={router} />
+      <form className="mt-20 w-1/3 mx-auto" onSubmit={handleSubmit}>
+        <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">Add new product</h3>
+        <Input
+          name="name"
+          className="mt-4"
+          type="text"
+          placeholder="Name"
+          onChange={handleChange}
+        />
+        <Input
+          name="categoryId"
+          className="mt-4"
+          type="text"
+          placeholder="Category Id"
+          onChange={handleChange}
+        />
+        <Input
+          name="image"
+          className="mt-4"
+          type="text"
+          placeholder="Image"
+          onChange={handleChange}
+        />
+        <Input
+          name="price"
+          className="mt-4"
+          type="text"
+          placeholder="Price"
+          onChange={handleChange}
+        />
+        <div className="flex justify-between">
+          <Button className="mt-4" type="submit">
+            enter product
+          </Button>
+          <Button className="mt-4" variant={"outline"} type="reset">
+            reset
+          </Button>
+        </div>
+      </form>
     </div>
   )
 }
