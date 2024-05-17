@@ -20,6 +20,7 @@ To read more about using these font, please visit the Next.js documentation:
 import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet"
+import { Cart } from "./cart"
 
 export function NavBar() {
   return (
@@ -29,14 +30,14 @@ export function NavBar() {
         <span className="text-lg font-semibold">Acme Inc</span>
       </Link>
       <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
-        <Link className="hover:underline hover:underline-offset-4" to="#">
+        <Link className="hover:underline hover:underline-offset-4" to="/">
           Home
         </Link>
         <Link className="hover:underline hover:underline-offset-4" to="/about">
           About
         </Link>
-        <Link className="hover:underline hover:underline-offset-4" to="/services">
-          Services
+        <Link className="hover:underline hover:underline-offset-4" to="/dashboard">
+          Dashboard
         </Link>
         <Link className="hover:underline hover:underline-offset-4" to="/contact">
           Contact
@@ -57,8 +58,8 @@ export function NavBar() {
             <Link className="text-lg font-medium hover:underline" to="#">
               About
             </Link>
-            <Link className="text-lg font-medium hover:underline" to="#">
-              Services
+            <Link className="text-lg font-medium hover:underline" to="/dashboard">
+              Dashboard
             </Link>
             <Link className="text-lg font-medium hover:underline" to="#">
               Contact
@@ -66,6 +67,7 @@ export function NavBar() {
           </div>
         </SheetContent>
       </Sheet>
+      <Cart/>
     </header>
   )
 }
