@@ -1,3 +1,4 @@
+import jwt from "jwt-decode"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
 import api from "@/api"
@@ -26,7 +27,7 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table"
-import { Product } from "@/types"
+import { Category, Product, User } from "@/types"
 
 export function Dashboard() {
   const queryClient = useQueryClient()
@@ -37,6 +38,8 @@ export function Dashboard() {
     image: "",
     price: ""
   })
+
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -85,8 +88,47 @@ export function Dashboard() {
       return Promise.reject(new Error("Something went wrong"))
     }
   }
+  const getCategories = async () => {
+    try {
+      const res = await api.get("/categorys")
+      return res.data
+    } catch (error) {
+      console.error(error)
+      return Promise.reject(new Error("Something went wrong"))
+    }
+  }
+  const getUsers = async () => {
+    try {
+      const token = localStorage.getItem("token")
+      const res = await api.get("/users", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      return res.data
+    } catch (error) {
+      console.error(error)
+      return Promise.reject(new Error("Something went wrong"))
+    }
+  }
 
   // Queries
+  const {
+    isPending: userPending,
+    data: users,
+    error: userError
+  } = useQuery<User[]>({
+    queryKey: ["users"],
+    queryFn: getUsers
+  })
+  const {
+    isPending: catPending,
+    data: categories,
+    error: catError
+  } = useQuery<Category[]>({
+    queryKey: ["categories"],
+    queryFn: getCategories
+  })
   const {
     isPending,
     data: products,
@@ -98,6 +140,28 @@ export function Dashboard() {
   if (isPending) {
     return <p>Data is fetching ....</p>
   }
+
+  const productWithCat = products?.map(product=>{
+    const category = categories?.find(cat=>cat.id===product.categoryId)
+
+    if (category) {
+      return {
+        ...product,
+        categoryId:category.name
+      } 
+    }
+    return product
+
+  })
+
+  const handleSelect =(e:any)=>{
+setProduct({
+  ...product,
+  categoryId:e.target.value
+})
+  }
+
+
   return (
     <>
       <NavBar />
@@ -110,13 +174,13 @@ export function Dashboard() {
           placeholder="Name"
           onChange={handleChange}
         />
-        <Input
-          name="categoryId"
-          className="mt-4"
-          type="text"
-          placeholder="Category Id"
-          onChange={handleChange}
-        />
+        <select name="cats" onChange={handleSelect} className="mt-7 w-60 mx-auto p-2" >
+          {categories?.map((cat)=>{
+            return(
+              <option key={cat.id} value={cat.id}>{cat.name}</option>
+            )
+          })}
+        </select>
         <Input
           name="image"
           className="mt-4"
@@ -155,7 +219,7 @@ export function Dashboard() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products?.map((product) => (
+            {productWithCat?.map((product) => (
               <TableRow key={product.id}>
                 <TableCell className="font-medium"></TableCell>
                 <TableCell className="text-center">{product.name}</TableCell>

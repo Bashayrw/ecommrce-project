@@ -6,6 +6,9 @@ import { ProductDetails } from "./pages/productDetails"
 import { Dashboard } from "./pages/dashboard"
 import { createContext, useState } from "react"
 import { Product } from "./types"
+import { LogIn } from "lucide-react"
+import { Login } from "./pages/login"
+import { Signup } from "./pages/signup"
 
 const router = createBrowserRouter([
   {
@@ -15,6 +18,14 @@ const router = createBrowserRouter([
   {
     path: "/products/:id",
     element: <ProductDetails />
+  },
+  {
+    path: "/signup",
+    element: <Signup />
+  },
+  {
+    path: "/login",
+    element: <Login />
   },
   {
     path: "/dashboard",

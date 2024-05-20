@@ -33,14 +33,14 @@ export function NavBar() {
         <Link className="hover:underline hover:underline-offset-4" to="/">
           Home
         </Link>
-        <Link className="hover:underline hover:underline-offset-4" to="/about">
-          About
+        <Link className="hover:underline hover:underline-offset-4" to="/login">
+          Login
+        </Link>
+        <Link className="hover:underline hover:underline-offset-4" to="/signup">
+          Signup
         </Link>
         <Link className="hover:underline hover:underline-offset-4" to="/dashboard">
-          Dashboard
-        </Link>
-        <Link className="hover:underline hover:underline-offset-4" to="/contact">
-          Contact
+        Dashboard
         </Link>
       </nav>
       <Sheet>

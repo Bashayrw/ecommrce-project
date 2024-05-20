@@ -9,6 +9,7 @@ import { NavBar } from "@/components/ui/navbar"
 import { GlobalContext } from "@/App"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { HeroSection } from "@/components/component/hero-section"
 
 export function Home() {
   const [searchParams, setSerachParams] = useSearchParams()
@@ -55,6 +56,7 @@ export function Home() {
   return (
     <>
       <NavBar></NavBar>
+      <HeroSection/>
       <div>
         <form onSubmit={handleSearch} className="flex gap-4 w-full md:w-1/2 mx-auto mb-10">
           <Input
