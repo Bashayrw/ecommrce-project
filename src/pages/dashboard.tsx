@@ -1,6 +1,6 @@
 import jwt from "jwt-decode"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import api from "@/api"
 
 import {
@@ -28,8 +28,13 @@ import {
   TableRow
 } from "@/components/ui/table"
 import { Category, Product, User } from "@/types"
+import jwtDecode from "jwt-decode"
+import { log } from "console"
+import { CloudRainWind } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 
 export function Dashboard() {
+  const navigate = useNavigate()
   const queryClient = useQueryClient()
 
   const [product, setProduct] = useState({
@@ -40,13 +45,14 @@ export function Dashboard() {
   })
 
 
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setProduct({
       ...product,
       [name]: value
     })
+
+  
   }
 
   const postProduct = async () => {
@@ -141,26 +147,24 @@ export function Dashboard() {
     return <p>Data is fetching ....</p>
   }
 
-  const productWithCat = products?.map(product=>{
-    const category = categories?.find(cat=>cat.id===product.categoryId)
+  const productWithCat = products?.map((product) => {
+    const category = categories?.find((cat) => cat.id === product.categoryId)
 
     if (category) {
       return {
         ...product,
-        categoryId:category.name
-      } 
+        categoryId: category.name
+      }
     }
     return product
-
   })
 
-  const handleSelect =(e:any)=>{
-setProduct({
-  ...product,
-  categoryId:e.target.value
-})
+  const handleSelect = (e: any) => {
+    setProduct({
+      ...product,
+      categoryId: e.target.value
+    })
   }
-
 
   return (
     <>
@@ -174,10 +178,12 @@ setProduct({
           placeholder="Name"
           onChange={handleChange}
         />
-        <select name="cats" onChange={handleSelect} className="mt-7 w-60 mx-auto p-2" >
-          {categories?.map((cat)=>{
-            return(
-              <option key={cat.id} value={cat.id}>{cat.name}</option>
+        <select name="cats" onChange={handleSelect} className="mt-7 w-60 mx-auto p-2">
+          {categories?.map((cat) => {
+            return (
+              <option key={cat.id} value={cat.id}>
+                {cat.name}
+              </option>
             )
           })}
         </select>

@@ -21,27 +21,51 @@ import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet"
 import { Cart } from "./cart"
+import { useContext } from "react"
+import { GlobalContext } from "@/App"
+import { ROLE } from "@/types"
+import { Sparkle } from "lucide-react"
 
 export function NavBar() {
+  const context = useContext(GlobalContext)
+  if (!context) throw Error("context is missing ")
+  const { state, handleRemoveUser } = context
+
+  console.log(state)
+
+  const handleLogout =()=>{
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+
+    handleRemoveUser()
+  }
+
   return (
     <header className="flex h-16 items-center justify-between px-4 md:px-6">
       <Link className="flex items-center gap-2" to="/homne">
-        <MountainIcon className="h-6 w-6" />
-        <span className="text-lg font-semibold">Acme Inc</span>
+        <Sparkle className="h-6 w-6" />
+        <span className="text-lg font-semibold">Lustrous</span>
       </Link>
       <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
         <Link className="hover:underline hover:underline-offset-4" to="/">
           Home
         </Link>
-        <Link className="hover:underline hover:underline-offset-4" to="/login">
-          Login
-        </Link>
-        <Link className="hover:underline hover:underline-offset-4" to="/signup">
+      {!state.user && (<Link className="hover:underline hover:underline-offset-4" to="/login">
+        Login
+      </Link>)}
+      {!state.user && (<Link className="hover:underline hover:underline-offset-4" to="/signup">
           Signup
-        </Link>
-        <Link className="hover:underline hover:underline-offset-4" to="/dashboard">
-        Dashboard
-        </Link>
+        </Link>)}
+        {state.user?.role === ROLE.Admin && (
+          <Link className="hover:underline hover:underline-offset-4" to="/dashboard">
+            Dashboard
+          </Link>
+        )}
+         {state.user && (
+          <Link className="hover:underline hover:underline-offset-4" to="/" onClick={handleRemoveUser}>
+            Logout
+          </Link>
+        )}
       </nav>
       <Sheet>
         <SheetTrigger asChild>
@@ -52,22 +76,25 @@ export function NavBar() {
         </SheetTrigger>
         <SheetContent side="right">
           <div className="grid gap-6 p-6">
-            <Link className="text-lg font-medium hover:underline" to="#">
+            <Link className="text-lg font-medium hover:underline" to="/">
               Home
             </Link>
-            <Link className="text-lg font-medium hover:underline" to="#">
-              About
-            </Link>
-            <Link className="text-lg font-medium hover:underline" to="/dashboard">
+            {!state.user && (<Link className="text-lg font-medium hover:underline" to="/login">
+              Login
+            </Link>)}
+            {!state.user && (<Link className="text-lg font-medium hover:underline" to="/signup">
+              Signup
+            </Link>)}
+            {state.user?.role === ROLE.Admin && (<Link className="text-lg font-medium hover:underline" to="/dashboard">
               Dashboard
-            </Link>
-            <Link className="text-lg font-medium hover:underline" to="#">
-              Contact
-            </Link>
+            </Link>)}
+            {state.user && (<Link className="text-lg font-medium hover:underline" to="/">
+              Logout
+            </Link>)}
           </div>
         </SheetContent>
       </Sheet>
-      <Cart/>
+      <Cart />
     </header>
   )
 }
