@@ -1,25 +1,11 @@
-import jwt from "jwt-decode"
-import { useQuery, useQueryClient } from "@tanstack/react-query"
-import { useEffect, useState } from "react"
 import api from "@/api"
-
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger
-} from "@/components/ui/alert-dialog"
+import { Footer } from "@/components/component/footer"
+import { AlertDialogFooter, AlertDialogHeader } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { EditDialog } from "@/components/ui/editDialog"
 import { Input } from "@/components/ui/input"
 import { NavBar } from "@/components/ui/navbar"
 import {
-  Table,
   TableBody,
   TableCaption,
   TableCell,
@@ -27,13 +13,21 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table"
-import { Category, Product, User } from "@/types"
-import { Link, useNavigate } from "react-router-dom"
-import { Footer } from "@/components/component/footer"
-import { BellIcon, Package2Icon, PackageIcon, UsersIcon } from "lucide-react"
+import { Category, Product } from "@/types"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "@radix-ui/react-alert-dialog"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { Table } from "lucide-react"
+import { useState } from "react"
 
-export function Dashboard() {
-  const navigate = useNavigate()
+export function ProductDashboard() {
   const queryClient = useQueryClient()
 
   const [product, setProduct] = useState({
@@ -90,47 +84,7 @@ export function Dashboard() {
       return Promise.reject(new Error("Something went wrong"))
     }
   }
-  const getCategories = async () => {
-    try {
-      const res = await api.get("/categorys")
-      return res.data
-    } catch (error) {
-      console.error(error)
-      return Promise.reject(new Error("Something went wrong"))
-    }
-  }
-  const getUsers = async () => {
-    try {
-      const token = localStorage.getItem("token")
-      const res = await api.get("/users", {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-      return res.data
-    } catch (error) {
-      console.error(error)
-      return Promise.reject(new Error("Something went wrong"))
-    }
-  }
 
-  // Queries
-  const {
-    isPending: userPending,
-    data: users,
-    error: userError
-  } = useQuery<User[]>({
-    queryKey: ["users"],
-    queryFn: getUsers
-  })
-  const {
-    isPending: catPending,
-    data: categories,
-    error: catError
-  } = useQuery<Category[]>({
-    queryKey: ["categories"],
-    queryFn: getCategories
-  })
   const {
     isPending,
     data: products,
@@ -142,6 +96,25 @@ export function Dashboard() {
   if (isPending) {
     return <p>Data is fetching ....</p>
   }
+
+  const getCategories = async () => {
+    try {
+      const res = await api.get("/categorys")
+      return res.data
+    } catch (error) {
+      console.error(error)
+      return Promise.reject(new Error("Something went wrong"))
+    }
+  }
+
+  const {
+    isPending: catPending,
+    data: categories,
+    error: catError
+  } = useQuery<Category[]>({
+    queryKey: ["categories"],
+    queryFn: getCategories
+  })
 
   const productWithCat = products?.map((product) => {
     const category = categories?.find((cat) => cat.id === product.categoryId)
@@ -165,10 +138,7 @@ export function Dashboard() {
   return (
     <>
       <NavBar />
-      <div className="flex-1" />
-    
       <form className="mt-20 w-1/3 mx-auto" onSubmit={handleSubmit}>
-       
         <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">Add new product</h3>
         <Input
           name="name"
@@ -210,7 +180,7 @@ export function Dashboard() {
         </div>
       </form>
       <div>
-        <h1 className="mt-10 mb-10">Products</h1>
+        <h1>Products</h1>
         <Table>
           <TableCaption>A list of your recent products</TableCaption>
           <TableHeader>
@@ -225,7 +195,7 @@ export function Dashboard() {
           </TableHeader>
           <TableBody>
             {productWithCat?.map((product) => (
-              <TableRow key={product.stockId}>
+              <TableRow key={product.id}>
                 <TableCell className="font-medium"></TableCell>
                 <TableCell className="text-center">{product.name}</TableCell>
                 <TableCell className="text-center">{product.categoryId}</TableCell>

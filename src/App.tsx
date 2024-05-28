@@ -10,6 +10,9 @@ import { LogIn } from "lucide-react"
 import { Login } from "./pages/login"
 import { Signup } from "./pages/signup"
 import { PrivateRoute } from "./components/component/privateRoute"
+import { UserDashboard } from "./pages/userDashboard"
+import { Dashboard1 } from "./components/component/dashboard"
+import { ProductDashboard } from "./pages/productDashboard"
 
 const router = createBrowserRouter([
   {
@@ -43,6 +46,7 @@ type GlobalContextType = {
   handleDeleteFromCart: (id: string) => void
   handleStoreUser: (user: DecodedUser) => void
   handleRemoveUser: () => void
+  handleRemoveCart: () => void
 }
 type GlobalState = {
   cart: Product[]
@@ -78,6 +82,14 @@ function App() {
     })
   }
 
+  const handleRemoveCart = () => {
+
+    setState({
+      ...state,
+      cart: []
+    })
+  }
+
   const handleStoreUser = (user: DecodedUser) => {
     setState({
       ...state,
@@ -100,7 +112,7 @@ function App() {
   return (
     <div className="App">
       <GlobalContext.Provider
-        value={{ state, handleAddToCart, handleDeleteFromCart, handleStoreUser, handleRemoveUser }}
+        value={{ state, handleAddToCart, handleDeleteFromCart, handleStoreUser, handleRemoveUser, handleRemoveCart }}
       >
         <RouterProvider router={router} />
       </GlobalContext.Provider>

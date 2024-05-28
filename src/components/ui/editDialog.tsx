@@ -31,14 +31,11 @@ export function EditDialog({ product }: { product: Product }) {
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target
+    const { name, value } = e.target
 
     setUpdatedProduct({
       ...updatedProduct,
-      name: value,
-      image: "",
-      price: 0
-    })
+      [name]: value })
   }
 
   const handleUpdate = async () => {
@@ -64,6 +61,7 @@ export function EditDialog({ product }: { product: Product }) {
             </Label>
             <Input
               id="name"
+              name="name"
               defaultValue={updatedProduct.name}
               className="col-span-3"
               onChange={handleChange}

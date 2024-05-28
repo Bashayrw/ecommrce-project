@@ -1,6 +1,7 @@
 import api from "@/api"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { NavBar } from "@/components/ui/navbar"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { CloudRainWind } from "lucide-react"
 import { cwd } from "process"
@@ -48,7 +49,8 @@ export function Signup() {
 
     return (
         <>
-            <h2 className="md:font-bold">SIGNUP</h2>
+        <NavBar/>
+            <h2 className="md:font-bold mt-40" >SIGNUP</h2>
             <form action="POST" className="w-full md:w-1/3 mx-auto" onSubmit={handleSubmit}>
                 <Input
                     name="firstName"

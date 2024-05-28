@@ -8,6 +8,7 @@ import api from "@/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { reshapeUser } from "@/lib/utils";
+import { NavBar } from "@/components/ui/navbar";
 
 
 
@@ -56,7 +57,8 @@ export function Login() {
   }
   return (
     <>
-      <h2 className="md:font-bold">LOGIN</h2>
+    <NavBar/>
+      <h2 className="md:font-bold mt-40">LOGIN</h2>
       <form action="POST" className="w-full md:w-1/3 mx-auto" onSubmit={handleSubmit}>
         <Input
           name="email"

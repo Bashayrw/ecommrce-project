@@ -31,38 +31,48 @@ export function NavBar() {
   if (!context) throw Error("context is missing ")
   const { state, handleRemoveUser } = context
 
-  console.log(state)
+ 
 
-  const handleLogout =()=>{
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("user")
 
     handleRemoveUser()
   }
 
   return (
     <header className="flex h-16 items-center justify-between px-4 md:px-6">
-      <Link className="flex items-center gap-2" to="/homne">
+      <Link className="flex items-center gap-2" to="/">
         <Sparkle className="h-6 w-6" />
-        <span className="text-lg font-semibold">Lustrous</span>
+        <span className="font-['Open_Sans'] text-2xl italic font-semibold capitalize">
+          Lustrous
+        </span>
       </Link>
-      <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
-        <Link className="hover:underline hover:underline-offset-4" to="/">
+      <nav className="hidden items-center gap-6 text-base font-medium md:flex justify-between">
+        <Link className="hover:underline hover:underline-offset-4 " to="/">
           Home
         </Link>
-      {!state.user && (<Link className="hover:underline hover:underline-offset-4" to="/login">
-        Login
-      </Link>)}
-      {!state.user && (<Link className="hover:underline hover:underline-offset-4" to="/signup">
-          Signup
-        </Link>)}
+        {!state.user && (
+          <Link className="hover:underline hover:underline-offset-4" to="/login">
+            Login
+          </Link>
+        )}
+        {!state.user && (
+          <Link className="hover:underline hover:underline-offset-4" to="/signup">
+            Signup
+          </Link>
+        )}
         {state.user?.role === ROLE.Admin && (
           <Link className="hover:underline hover:underline-offset-4" to="/dashboard">
             Dashboard
           </Link>
         )}
-         {state.user && (
-          <Link className="hover:underline hover:underline-offset-4" to="/" onClick={handleRemoveUser}>
+        {state.user && (
+          <Link
+            className="hover:underline hover:underline-offset-4"
+            to="/"
+            onClick={handleRemoveUser}
+          >
             Logout
           </Link>
         )}
@@ -79,22 +89,29 @@ export function NavBar() {
             <Link className="text-lg font-medium hover:underline" to="/">
               Home
             </Link>
-            {!state.user && (<Link className="text-lg font-medium hover:underline" to="/login">
-              Login
-            </Link>)}
-            {!state.user && (<Link className="text-lg font-medium hover:underline" to="/signup">
-              Signup
-            </Link>)}
-            {state.user?.role === ROLE.Admin && (<Link className="text-lg font-medium hover:underline" to="/dashboard">
-              Dashboard
-            </Link>)}
-            {state.user && (<Link className="text-lg font-medium hover:underline" to="/">
-              Logout
-            </Link>)}
+            {!state.user && (
+              <Link className="text-lg font-medium hover:underline" to="/login">
+                Login
+              </Link>
+            )}
+            {!state.user && (
+              <Link className="text-lg font-medium hover:underline" to="/signup">
+                Signup
+              </Link>
+            )}
+            {state.user?.role === ROLE.Admin && (
+              <Link className="text-lg font-medium hover:underline" to="/dashboard">
+                Dashboard
+              </Link>
+            )}
+            {state.user && (
+              <Link className="text-lg font-medium hover:underline" to="/">
+                Logout
+              </Link>
+            )}
           </div>
         </SheetContent>
       </Sheet>
-      <Cart />
     </header>
   )
 }
