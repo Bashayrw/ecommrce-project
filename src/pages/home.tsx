@@ -66,7 +66,7 @@ export function Home() {
       <Cart/>
       <div className="flex justify-center mb-10 border-dashed "  >
       {/* <img  src="../src/images/vid2.gif" width={1000} className="object-bottom"/> */}
-      <img  src="../public/images/vid1.gif" width={1000} className="object-bottom"/>
+      <img  src="images/vid1.gif" width={1000} className="object-bottom"/>
 
       {/* <img  src="../src/images/pic1.jpg" width={300} height={700} className="object-bottom"/>
       <img  src="../src/images/pic2.jpg" width={300} height={700} />
