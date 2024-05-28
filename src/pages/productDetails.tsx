@@ -20,7 +20,7 @@ import { Footer } from "@/components/component/footer"
 export function ProductDetails() {
   const context = useContext(GlobalContext)
   if (!context) throw Error("context is missing ")
-  const { handleAddToCart } = context
+  const { handleAddToCart, state, handleRemoveCart } = context
 
   const { id } = useParams<string>()
 
@@ -49,6 +49,44 @@ export function ProductDetails() {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     handleAddToCart(data)
+  }
+
+
+  const groups = state.cart.reduce((acc, obj) => {
+    const key = obj.stockId
+    const curGroup = acc[key] ?? []
+    return { ...acc, [key]: [...curGroup, obj] }
+  }, {})
+
+
+  const items = []
+
+  Object.keys(groups).forEach((key) => {
+    const products = groups[key]
+
+    items.push({
+      quantity: products.length,
+      stockId: key
+    })
+  })
+
+
+  const handleCheckout = async () => {
+    try {
+      const token = localStorage.getItem("token")
+      const res = await api.post("/ordercheckouts/checkout", items, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      if (res.status === 201) {
+        handleRemoveCart()
+      }
+      return res.data
+    } catch (error) {
+      console.error(error)
+      return Promise.reject(new Error("Something went wrong"))
+    }
   }
 
   return (
