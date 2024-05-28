@@ -65,12 +65,7 @@ export function Home() {
       <HeroSection />
       <Cart/>
       <div className="flex justify-center mb-10 border-dashed "  >
-      {/* <img  src="../src/images/vid2.gif" width={1000} className="object-bottom"/> */}
       <img  src="images/vid1.gif" width={1000} className="object-bottom"/>
-
-      {/* <img  src="../src/images/pic1.jpg" width={300} height={700} className="object-bottom"/>
-      <img  src="../src/images/pic2.jpg" width={300} height={700} />
-      <img  src="../src/images/pic3.jpg" width={300} height={700} /> */}
       </div>
      
       <div>
@@ -86,7 +81,7 @@ export function Home() {
           <Button type="submit">Search</Button>
         </form>
       </div>
-      <h1 className="text-2xl uppercase mb-10 font-mono ">Products</h1>
+      <h1 className="text-2xl uppercase mb-10 font-mono font-bold ">Products</h1>
       <Separator className=" w-3/4 mx-auto" />
       <section className="flex flex-wrap flex-col md:flex-row gap-4 justify-between max-w-6xl mx-auto mt-20">
         {data?.map((product) => (
