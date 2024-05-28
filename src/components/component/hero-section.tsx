@@ -48,7 +48,7 @@ export function HeroSection() {
             alt="Hero"
             className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last lg:aspect-square"
             height="550"
-            src="/images/herosection.jpg"
+            src="images/herosection.jpg"
             width="550"
           />
         </div>
