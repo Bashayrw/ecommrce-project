@@ -58,6 +58,7 @@ export function Login() {
   return (
     <>
     <NavBar/>
+    <div className="login">
       <h2 className="md:font-bold mt-40">LOGIN</h2>
       <form action="POST" className="w-full md:w-1/3 mx-auto" onSubmit={handleSubmit}>
         <Input
@@ -81,6 +82,7 @@ export function Login() {
           </Button>
         </div>
       </form>
+      </div>
     </>
   )
 }

@@ -106,7 +106,7 @@ export function Cart() {
         <PopoverContent className="w-[400px] p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-light font-bold">Your Cart</h3>
-            <span className="text-gray-500 dark:text-gray-400">3 items</span>
+            <span className="text-gray-500 dark:text-gray-400">2 items</span>
           </div>
           <div className="space-y-4 w-90">
             <div className="grid grid-cols-[64px_1fr_64px] items-center gap-4 w-90">
