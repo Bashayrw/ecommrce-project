@@ -49,7 +49,9 @@ export function Signup() {
 
     return (
         <>
+        
         <NavBar/>
+        <div className="signup">
             <h2 className="md:font-bold mt-40" >SIGNUP</h2>
             <form action="POST" className="w-full md:w-1/3 mx-auto" onSubmit={handleSubmit}>
                 <Input
@@ -94,6 +96,7 @@ export function Signup() {
                     </Button>
                 </div>
             </form>
+            </div>
         </>
     )
 }

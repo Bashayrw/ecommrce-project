@@ -60,7 +60,7 @@ export function Login() {
     <NavBar/>
     <div className="login">
       <h2 className="md:font-bold mt-40">LOGIN</h2>
-      <form action="POST" className="w-full md:w-1/3 mx-auto" onSubmit={handleSubmit}>
+      <form action="POST" className=" w-full md:w-2/3 mx-auto h-screen justify-center" onSubmit={handleSubmit}>
         <Input
           name="email"
           className="mt-4"

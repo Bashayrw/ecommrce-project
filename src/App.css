@@ -7,11 +7,29 @@
 }
 
 .login{
-  background-image:url("/public/images/pic1.jpg");
+  background-image:url("/public/images/img.png");
   background-size: cover;
-  width: 100vw;
-  height: 150vh;
-  /* background-repeat: no-repeat; */
+  width: 80vw;
+  height: 95vh;
+  float: right;
+  /* display: block; */
+  /* margin-left: auto; */
+  /* margin-right: auto; */
+  margin-bottom:auto;
+  /* margin-right: auto; */
+}
+
+.signup{
+  background-image:url("/public/images/img.png");
+  background-size: cover;
+  width: 80vw;
+  height: 95vh;
+  float: right;
+  /* display: block; */
+  /* margin-left: auto; */
+  /* margin-right: auto; */
+  margin-bottom:auto;
+  /* margin-right: auto; */
 }
 
 .logo {
