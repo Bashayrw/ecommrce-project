@@ -20,9 +20,10 @@ import { Footer } from "@/components/component/footer"
 export function ProductDetails() {
   const context = useContext(GlobalContext)
   if (!context) throw Error("context is missing ")
-  const { handleAddToCart, state, handleRemoveCart } = context
+  const { handleAddToCart } = context
 
   const { id } = useParams<string>()
+  console.log("id in product details ", id)
 
   const getProductById = async (id: string | undefined) => {
     try {
@@ -38,6 +39,7 @@ export function ProductDetails() {
     queryKey: ["products", id],
     queryFn: () => getProductById(id)
   })
+  console.log("data in product details", data)
 
   if (isPending) {
     return <p>Loading</p>
@@ -51,55 +53,16 @@ export function ProductDetails() {
     handleAddToCart(data)
   }
 
-
-  const groups = state.cart.reduce((acc, obj) => {
-    const key = obj.stockId
-    const curGroup = acc[key] ?? []
-    return { ...acc, [key]: [...curGroup, obj] }
-  }, {})
-
-
-  const items = []
-
-  Object.keys(groups).forEach((key) => {
-    const products = groups[key]
-
-    items.push({
-      quantity: products.length,
-      stockId: key
-    })
-  })
-
-
-  const handleCheckout = async () => {
-    try {
-      const token = localStorage.getItem("token")
-      const res = await api.post("/ordercheckouts/checkout", items, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-      if (res.status === 201) {
-        handleRemoveCart()
-      }
-      return res.data
-    } catch (error) {
-      console.error(error)
-      return Promise.reject(new Error("Something went wrong"))
-    }
-  }
-
   return (
     <div>
       <NavBar />
-
+      
       <>
+    
         <div className="grid md:grid-cols-2 gap-6 lg:gap-12 items-start max-w-6xl px-4 mx-auto py-6 ">
           <div className="grid gap-4 md:gap-10 items-start">
             <div className="grid gap-4">
-              <h1 className="font-bold text-3xl lg:text-4xl flex justify-center mt-72">
-                {data.name}
-              </h1>
+              <h1 className="font-bold text-3xl lg:text-4xl flex justify-center mt-72">{data.name}</h1>
               <div className="flex justify-center gap-4">
                 <div className="text-4xl font-bold">{data.price} sr</div>
               </div>
@@ -129,7 +92,7 @@ export function ProductDetails() {
             </form>
           </div>
           <div className="grid gap-4">
-            <img
+            <img 
               alt={data.name}
               className="aspect-square object-cover border border-gray-200 w-full rounded-lg overflow-hidden dark:border-gray-800 mt-64 ml-20 mb-40"
               height={600}
@@ -138,9 +101,10 @@ export function ProductDetails() {
             />
           </div>
         </div>
-        <Cart />
-        <Footer />
+        <Cart/>
+        <Footer/>
       </>
     </div>
+   
   )
 }
