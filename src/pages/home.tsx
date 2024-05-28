@@ -79,7 +79,7 @@ export function Home() {
           <Button type="submit">Search</Button>
         </form>
       </div>
-      <h1 className="text-2xl uppercase mb-10 font-mono font-bold ">Products</h1>
+      <h1 className="text-2xl uppercase mb-10 font-light">Products</h1>
       <Separator className=" w-3/4 mx-auto" />
       <section className="flex flex-wrap flex-col md:flex-row gap-4 justify-between max-w-6xl mx-auto mt-20">
         {data?.map((product) => (

@@ -59,10 +59,10 @@ export function ProductDetails() {
       
       <>
     
-        <div className="grid md:grid-cols-2 gap-6 lg:gap-12 items-start max-w-6xl px-4 mx-auto py-6 ">
+        <div className="grid md:grid-cols-2 gap-6 lg:gap-12 items-start max-w-6xl px-4 mx-auto  ">
           <div className="grid gap-4 md:gap-10 items-start">
             <div className="grid gap-4">
-              <h1 className="font-bold text-3xl lg:text-4xl flex justify-center mt-72">{data.name}</h1>
+              <h1 className="font-bold text-3xl lg:text-4xl flex justify-center mt-32">{data.name}</h1>
               <div className="flex justify-center gap-4">
                 <div className="text-4xl font-bold">{data.price} sr</div>
               </div>
@@ -94,7 +94,7 @@ export function ProductDetails() {
           <div className="grid gap-4">
             <img 
               alt={data.name}
-              className="aspect-square object-cover border border-gray-200 w-full rounded-lg overflow-hidden dark:border-gray-800 mt-64 ml-20 mb-40"
+              className="aspect-square object-cover border border-gray-200 w-full rounded-lg overflow-hidden dark:border-gray-800 mb-36 mt-16"
               height={600}
               src={data.image}
               width={600}
