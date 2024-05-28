@@ -61,24 +61,22 @@ export function Home() {
   }
   return (
     <>
-      <NavBar />
+<NavBar/>
       <HeroSection />
-      <Cart />
-      <div className="flex justify-center mb-10 border-dashed ">
-        {/* <img  src="../src/images/vid2.gif" width={1000} className="object-bottom"/> */}
-        <img
-          src="https://drive.google.com/file/d/1Zf7RNHwiNhIiocgt6KG_FLLE1f13yRj9/view?usp=sharing"
-          width={1000}
-          className="object-bottom"
-        />
+      <Cart/>
+      <div className="flex justify-center mb-10 border-dashed "  >
+      {/* <img  src="../src/images/vid2.gif" width={1000} className="object-bottom"/> */}
+      <img  src="../src/images/vid1.gif" width={1000} className="object-bottom"/>
 
-        {/* <img  src="../src/images/pic1.jpg" width={300} height={700} className="object-bottom"/>
+      {/* <img  src="../src/images/pic1.jpg" width={300} height={700} className="object-bottom"/>
       <img  src="../src/images/pic2.jpg" width={300} height={700} />
       <img  src="../src/images/pic3.jpg" width={300} height={700} /> */}
       </div>
-
+     
       <div>
+    
         <form onSubmit={handleSearch} className="flex gap-4 mt-4 w-full md:w-1/2 mx-auto mb-10">
+       
           <Input
             type="search"
             placeholder="Search for a product"
@@ -99,7 +97,7 @@ export function Home() {
             <div className="aspect-[4/3] bg-gray-100 overflow-hidden ">
               <img
                 alt="Product Image"
-                className="object-cover w-full h-full object-contain"
+                className="object-cover w-full h-full object-contain" 
                 height="300"
                 src={product.image} //"/placeholder.svg"
                 style={{
@@ -114,7 +112,7 @@ export function Home() {
               <div className="flex items-center mb-2">
                 <span className="text-2xl font-bold mr-2">{product.price} sr</span>
                 <div className="flex items-center">
-                  <span className="text-2xl font-bold mr-2">{product.size}</span>
+                <span className="text-2xl font-bold mr-2">{product.size}</span>
                 </div>
                 {/* <span className="text-gray-500 text-sm line-through">$149.99</span> */}
               </div>
@@ -122,14 +120,12 @@ export function Home() {
               <Button className="w-full mb-5" onClick={() => handleAddToCart(product)}>
                 Add to cart
               </Button>
-              <Link to={`products/${product.id}`} className="">
-                View Details
-              </Link>
+              <Link to={`products/${product.id}`} className="">View Details</Link>
             </div>
           </div>
         ))}
       </section>
-      <Footer />
+      <Footer/>
       {error && <p className="text-red-500">{error.message}</p>}
     </>
   )
